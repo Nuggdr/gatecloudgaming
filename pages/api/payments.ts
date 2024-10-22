@@ -33,9 +33,9 @@ const handlePayment = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ],
       back_urls: {
-        success: `/dashboard`,
-        failure: `/dashboard`,
-        pending: `/dashboard`,
+        success: 'https://gatecloudgaming-9und8yfct-nuggdrs-projects.vercel.app/dashboard',
+        failure: 'https://gatecloudgaming-9und8yfct-nuggdrs-projects.vercel.app/dashboard',
+        pending: 'https://gatecloudgaming-9und8yfct-nuggdrs-projects.vercel.app/dashboard',
       },
       auto_return: 'approved',
     };
@@ -57,7 +57,7 @@ const getPlanDetails = (planId: number) => {
   const plans = [
     { id: 1, title: 'Plano Horas', price: 7.90 },
     { id: 2, title: 'Plano Semanal', price: 27.99 },
-    { id: 3, title: 'Plano Mensal', price: 69.99 }, // Corrigido o preço para o Plano Mensal
+    { id: 3, title: 'Plano Mensal', price: 69.99 },
   ];
 
   return plans.find(plan => plan.id === planId);
