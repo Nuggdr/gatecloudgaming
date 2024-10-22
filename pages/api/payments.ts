@@ -11,7 +11,8 @@ mercadopago.configure({
 // Função para lidar com o pagamento
 const handlePayment = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { planId, userId } = req.body;
+    // Adicionando tipos para os dados recebidos
+    const { planId, userId }: { planId: number; userId: string } = req.body;
 
     // Conectar ao banco de dados
     await dbConnect();
@@ -52,12 +53,11 @@ const handlePayment = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-
 const getPlanDetails = (planId: number) => {
   const plans = [
-    { id: 1, title: 'Plano 1', price: 7.90 },
-    { id: 2, title: 'Plano 2', price: 19.90 },
-    
+    { id: 1, title: 'Plano Horas', price: 7.90 },
+    { id: 2, title: 'Plano Semanal', price: 19.90 },
+    { id: 3, title: 'Plano Mensal', price: 19.90 },
   ];
 
   return plans.find(plan => plan.id === planId);
