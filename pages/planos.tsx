@@ -54,13 +54,18 @@ const Planos = () => {
   const handleBuy = async (planId: number) => {
     try {
       setLoading(true);
-      const res = await fetch('/api/check-stock', {
+      const stockRes = await fetch('/api/check-stock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ planId }),
       });
 
-      const { available } = await res.json();
+      if (!stockRes.ok) {
+        setNotification('Erro ao verificar estoque.');
+        return;
+      }
+
+      const { available } = await stockRes.json();
 
       if (available) {
         const mercadoPagoResponse = await fetch('/api/payments', {
@@ -122,7 +127,7 @@ const Planos = () => {
       </div>
 
       {notification && (
-        <div className="mt-10 p-4 bg-blue-500 text-white text-center rounded-lg">
+        <div aria-live="polite" className="mt-10 p-4 bg-blue-500 text-white text-center rounded-lg">
           {notification.includes('Erro') ? (
             <FaExclamationCircle className="inline-block mr-2" />
           ) : null}
