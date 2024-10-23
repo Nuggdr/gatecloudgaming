@@ -12,8 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { username } = req.query;
 
     // Verifica se o username foi fornecido
-    if (!username) {
-      return res.status(400).json({ error: 'Usuário não fornecido' });
+    if (!username || Array.isArray(username)) {
+      return res.status(400).json({ error: 'Usuário não fornecido ou inválido' });
     }
 
     try {
@@ -25,10 +25,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ error: 'Máquina não encontrada para este usuário.' });
       }
 
+      // Aqui você pode usar o modelo Machine, se necessário
+      // Exemplo de uso: const machine = await Machine.findById(user.machineId);
+
       // Retorna o IP da máquina
       return res.status(200).json({ ip: user.machineId.ip });
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao buscar a máquina do usuário:', error);
       return res.status(500).json({ error: 'Erro ao buscar a máquina do usuário.' });
     }
   } else {
