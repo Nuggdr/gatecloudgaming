@@ -33,9 +33,9 @@ const handlePayment = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ],
       back_urls: {
-        success: 'https://gatecloudgaming-9und8yfct-nuggdrs-projects.vercel.app/dashboard',
-        failure: 'https://gatecloudgaming-9und8yfct-nuggdrs-projects.vercel.app/dashboard',
-        pending: 'https://gatecloudgaming-9und8yfct-nuggdrs-projects.vercel.app/dashboard',
+        success: 'https://gatecloudstore.vercel.app/dashboard',
+        failure: 'https://gatecloudstore.vercel.app/dashboard',
+        pending: 'https://gatecloudstore.vercel.app/dashboard',
       },
       auto_return: 'approved',
     };
