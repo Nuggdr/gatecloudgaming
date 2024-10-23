@@ -58,6 +58,9 @@ const getPlanDetails = (planId: number) => {
     { id: 1, title: 'Plano Horas', price: 7.90 },
     { id: 2, title: 'Plano Semanal', price: 27.99 },
     { id: 3, title: 'Plano Mensal', price: 69.99 },
+     { id: 4, title: 'Plano 24 Horas 8 Nucleos', price: 11.99 },
+     { id: 5, title: 'Plano Semanal 8 Nucleos', price: 36.99 },
+   { id: 6, title: 'Plano Mensal 8 Nucleos', price: 91.99 },
   ];
 
   return plans.find(plan => plan.id === planId);
