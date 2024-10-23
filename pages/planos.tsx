@@ -33,6 +33,36 @@ const plans = [
     ram: '28 GB',
     storage: '256 GB SSD',
   },
+    {
+    id: 4,
+    title: 'Plano 24 Horas 8 nucleos',
+    price: '11,99',
+    duration: '24 horas',
+    processor: 'AMD EPYC',
+    gpu: 'NVIDIA Tesla T4',
+    ram: '56 GB',
+    storage: '256 GB SSD',
+  },
+    {
+    id: 5,
+    title: 'Plano Semanal 8 nucleos',
+    price: '36,99',
+    duration: 'semanal',
+    processor: 'AMD EPYC',
+    gpu: 'NVIDIA Tesla T4',
+    ram: '56 GB',
+    storage: '256 GB SSD',
+  },
+      {
+    id: 6,
+    title: 'Plano Mensal 8 nucleos',
+    price: '91,99',
+    duration: 'mensal',
+    processor: 'AMD EPYC',
+    gpu: 'NVIDIA Tesla T4',
+    ram: '56 GB',
+    storage: '256 GB SSD',
+  },
 ];
 
 const Planos = () => {
