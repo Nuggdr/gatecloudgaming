@@ -78,7 +78,7 @@ const Planos = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">
       <h1 className="text-4xl text-center text-blue-400 font-bold my-10">Planos Disponíveis</h1>
-      <h2 className="text-4xl text-center text-blue-400 font-bold my-10">POR FAVOR, ASSIM QUE FIZER O PAGAMENTO CLIQUE EM "VOLTAR PARA O SITE"</h2>
+<h2 className="text-4xl text-center text-blue-400 font-bold my-10">POR FAVOR, ASSIM QUE FIZER O PAGAMENTO CLIQUE EM &quot;VOLTAR PARA O SITE&quot;</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-5">
         {plans.map((plan) => (
           <div key={plan.id} className="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-blue-500 transition-transform transform hover:scale-105">
