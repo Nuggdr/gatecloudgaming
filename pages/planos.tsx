@@ -54,6 +54,38 @@ const Planos = () => {
   const handleBuy = async (planId: number) => {
     try {
       setLoading(true);
+
+      const plan = plans.find((p) => p.id === planId);
+      let expirationDate = new Date(); // Data atual
+
+      // Definir a data de expiração com base no tipo de plano
+      if (plan?.duration === '12 horas') {
+        expirationDate.setHours(expirationDate.getHours() + 12); // 12 horas após a compra
+      } else if (plan?.duration === 'semanal') {
+        expirationDate.setDate(expirationDate.getDate() + 7); // 7 dias após a compra
+      } else if (plan?.duration === 'mensal') {
+        expirationDate.setMonth(expirationDate.getMonth() + 1); // 1 mês após a compra
+      }
+
+      const expirationFormatted = expirationDate.toLocaleString('pt-BR', {
+        day: 'numeric',
+        month: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      // Enviar notificação para o Discord via webhook
+      const discordWebhookUrl = 'SEU_DISCORD_WEBHOOK_URL'; // Coloque sua URL do Discord Webhook aqui
+      const message = {
+        content: `O usuário ${user} comprou o plano ${plan?.title}. Expira em: ${expirationFormatted}`,
+      };
+
+      await fetch(discordWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(message),
+      });
+
       const mercadoPagoResponse = await fetch('/api/payments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -78,7 +110,7 @@ const Planos = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">
       <h1 className="text-4xl text-center text-blue-400 font-bold my-10">Planos Disponíveis</h1>
-<h2 className="text-4xl text-center text-blue-400 font-bold my-10">POR FAVOR, ASSIM QUE FIZER O PAGAMENTO CLIQUE EM &quot;VOLTAR PARA O SITE&quot;</h2>
+      <h2 className="text-4xl text-center text-blue-400 font-bold my-10">POR FAVOR, ASSIM QUE FIZER O PAGAMENTO CLIQUE EM &quot;VOLTAR PARA O SITE&quot;</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-5">
         {plans.map((plan) => (
           <div key={plan.id} className="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-blue-500 transition-transform transform hover:scale-105">
