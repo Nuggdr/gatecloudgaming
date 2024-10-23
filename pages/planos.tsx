@@ -33,7 +33,6 @@ const plans = [
     ram: '28 GB',
     storage: '256 GB SSD',
   },
-  // Adicione mais planos aqui, se necessário
 ];
 
 const Planos = () => {
@@ -56,15 +55,15 @@ const Planos = () => {
       setLoading(true);
 
       const plan = plans.find((p) => p.id === planId);
-      let expirationDate = new Date(); // Data atual
+      let expirationDate = new Date();
 
       // Definir a data de expiração com base no tipo de plano
       if (plan?.duration === '12 horas') {
-        expirationDate.setHours(expirationDate.getHours() + 12); // 12 horas após a compra
+        expirationDate.setHours(expirationDate.getHours() + 12);
       } else if (plan?.duration === 'semanal') {
-        expirationDate.setDate(expirationDate.getDate() + 7); // 7 dias após a compra
+        expirationDate.setDate(expirationDate.getDate() + 7);
       } else if (plan?.duration === 'mensal') {
-        expirationDate.setMonth(expirationDate.getMonth() + 1); // 1 mês após a compra
+        expirationDate.setMonth(expirationDate.getMonth() + 1);
       }
 
       const expirationFormatted = expirationDate.toLocaleString('pt-BR', {
@@ -74,10 +73,22 @@ const Planos = () => {
         minute: '2-digit',
       });
 
+      // Primeiro, busque o IP da máquina do usuário
+      const userMachineResponse = await fetch(`/api/user-machine?username=${user}`);
+      let userIp = '';
+
+      if (userMachineResponse.ok) {
+        const userMachineInfo = await userMachineResponse.json();
+        userIp = userMachineInfo.ip; // Pegue o IP da máquina
+      } else {
+        setNotification('Erro ao buscar informações da máquina do usuário.');
+        return;
+      }
+
       // Enviar notificação para o Discord via webhook
-      const discordWebhookUrl = 'SEU_DISCORD_WEBHOOK_URL'; // Coloque sua URL do Discord Webhook aqui
+      const discordWebhookUrl = 'https://discord.com/api/webhooks/1298723056952545402/aMo1VRPyO5JySKqvbQNM5XQNO4zuYYAIAqwvxu1bj0U_Z68jqsNtCxbI7wKCkHTCBTgO'; 
       const message = {
-        content: `O usuário ${user} comprou o plano ${plan?.title}. Expira em: ${expirationFormatted}`,
+        content: `O Usuário ${user} comprou o plano ${plan?.title}.\nExpira em: ${expirationFormatted}.\nIP da máquina: ${userIp}`,
       };
 
       await fetch(discordWebhookUrl, {
@@ -89,12 +100,12 @@ const Planos = () => {
       const mercadoPagoResponse = await fetch('/api/payments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId, username: user }), // Passando o username
+        body: JSON.stringify({ planId, username: user }),
       });
 
       if (mercadoPagoResponse.ok) {
         const { link } = await mercadoPagoResponse.json();
-        window.location.href = link; // Redirecionar para o link de pagamento
+        window.location.href = link;
       } else {
         const errorData = await mercadoPagoResponse.json();
         setNotification(`Erro ao processar o pagamento: ${errorData.error || 'Erro desconhecido.'}`);
@@ -131,7 +142,7 @@ const Planos = () => {
               </li>
             </ul>
             <button
-              onClick={() => handleBuy(plan.id)} // Aqui é onde o planId é passado
+              onClick={() => handleBuy(plan.id)} 
               className={`w-full ${loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'} text-white py-2 rounded-lg hover:bg-blue-600 transition`}
               disabled={loading}
             >
