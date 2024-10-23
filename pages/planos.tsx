@@ -54,7 +54,7 @@ const Planos = () => {
   const handleBuy = async (planId: number) => {
     try {
       setLoading(true);
-      const stockRes = await fetch('/api/check-stock', {
+      const stockRes = await fetch('/api/check-stssock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ planId }),
