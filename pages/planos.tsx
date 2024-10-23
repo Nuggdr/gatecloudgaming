@@ -54,35 +54,18 @@ const Planos = () => {
   const handleBuy = async (planId: number) => {
     try {
       setLoading(true);
-      const stockRes = await fetch('/api/check-stssock', {
+      const mercadoPagoResponse = await fetch('/api/payments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId }),
+        body: JSON.stringify({ planId, username: user }), // Passando o username
       });
 
-      if (!stockRes.ok) {
-        setNotification('Erro ao verificar estoque.');
-        return;
-      }
-
-      const { available } = await stockRes.json();
-
-      if (available) {
-        const mercadoPagoResponse = await fetch('/api/payments', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ planId, username: user }), // Passando o username
-        });
-
-        if (mercadoPagoResponse.ok) {
-          const { link } = await mercadoPagoResponse.json();
-          window.location.href = link; // Redirecionar para o link de pagamento
-        } else {
-          const errorData = await mercadoPagoResponse.json();
-          setNotification(`Erro ao processar o pagamento: ${errorData.error || 'Erro desconhecido.'}`);
-        }
+      if (mercadoPagoResponse.ok) {
+        const { link } = await mercadoPagoResponse.json();
+        window.location.href = link; // Redirecionar para o link de pagamento
       } else {
-        setNotification('Erro: Sem estoque disponível.');
+        const errorData = await mercadoPagoResponse.json();
+        setNotification(`Erro ao processar o pagamento: ${errorData.error || 'Erro desconhecido.'}`);
       }
     } catch (error) {
       console.error('Erro ao processar a compra:', error);
@@ -95,7 +78,7 @@ const Planos = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">
       <h1 className="text-4xl text-center text-blue-400 font-bold my-10">Planos Disponíveis</h1>
-      <h2 className="text-4xl text-center text-blue-400 font-bold my-10">POR FAVOR, ASSIM QUE FIZER O PAGAMENTO CLIQUE EM &quot;VOLTAR PARA O SITE&quot;</h2>
+      <h2 className="text-4xl text-center text-blue-400 font-bold my-10">POR FAVOR, ASSIM QUE FIZER O PAGAMENTO CLIQUE EM "VOLTAR PARA O SITE"</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-5">
         {plans.map((plan) => (
           <div key={plan.id} className="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-blue-500 transition-transform transform hover:scale-105">
